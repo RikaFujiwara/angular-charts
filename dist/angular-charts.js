@@ -60,7 +60,7 @@ angular.module('angularCharts').directive('acChart', [
    */
     function getChildrenByClassname(childrens, className) {
       var child = null;
-      for (var i in childrens) {
+      for (var i=0; i < childrens.length; i++) {
         if (angular.isElement(childrens[i])) {
           child = angular.element(childrens[i]);
           if (child.hasClass(className))
@@ -256,6 +256,7 @@ angular.module('angularCharts').directive('acChart', [
               x: d.x,
               y: e,
               s: i,
+              c: (d.color) ? d.color : null,
               tooltip: angular.isArray(d.tooltip) ? d.tooltip[i] : d.tooltip
             };
           });
@@ -304,7 +305,7 @@ angular.module('angularCharts').directive('acChart', [
         bars.attr('x', function (d, i) {
           return x0(i);
         }).attr('y', height).style('fill', function (d) {
-          return getColor(d.s);
+          return d.c ? d.c : getColor(d.s);
         }).attr('height', 0).transition().ease('cubic-in-out').duration(config.isAnimate ? 1000 : 0).attr('y', function (d) {
           return y(Math.max(0, d.y));
         }).attr('height', function (d) {
